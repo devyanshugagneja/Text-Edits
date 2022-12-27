@@ -4,6 +4,7 @@ export default function TextForm(props) {
     let text = document.getElementById("exampleFormControlTextarea1");
     text.select();
     navigator.clipboard.writeText(text.value);
+    document.getSelection().removeAllRanges();
     props.showAlert("Text has been copied","success")
   };
   const handleClear = () => {
@@ -47,27 +48,29 @@ export default function TextForm(props) {
             }}
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleupclick}
+        <button className="btn btn-primary mx-2 my-1" disabled={Text.length===0} onClick={handleupclick}
         >
           Convert to UpperCase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleloclick}>
+        <button disabled={Text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleloclick}>
           Convert to LowerCase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleCopy}>
+        <button className="btn btn-primary mx-2 my-1" disabled={Text.length===0} onClick={handleCopy}>
           Copy Text
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleClear}>
+        <button className="btn btn-primary mx-2 my-1" onClick={handleClear} disabled={Text.length===0}>
           Clear Text
         </button>
       </div>
       <div className="container my-3"  style={{ color: props.mode === "dark" ? "white" : "black" }}>
         <h1>Your text summary</h1>
         <p>
-          {Text.split(" ").length-1} words and {Text.length} characters
+          {Text.split(" ").filter((element)=>{return element.length!==0
+          }).length} words and {Text.length} characters
         </p>
         <p>
-          Time user will take to read it = {0.08 * (Text.split(" ").length-1)}{" "}
+          Time user will take to read it = {0.08 * Text.split(" ").filter((element)=>{return element.length!==0
+          }).length}{" "}
           minutes
         </p>
 
